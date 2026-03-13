@@ -1,0 +1,127 @@
+body{
+  font-family: 'Times New Roman', Times, serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-size: cover;
+  color: #333;
+}
+
+.container{
+  background: rgba(255, 255, 255, 0.8);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  transform: transform 0.3s ease-in-out;
+}
+
+.container:hover{
+  transform: translateY(-5px);
+}
+
+h2{
+   font-size: 2.2rem;
+   margin-bottom: 1.5rem;
+   color: #4a4a4a;
+   font-weight: 700;
+}
+
+.input-group{
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label{
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.input-group input{
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus{
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn{
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background-color: #4a4a4a;
+  color: white;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover{
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.link-page{
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.link-page a{
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.link-page a:hover{
+  color: #0056b3;
+}
+
+.sucesso{
+  text-align: center;
+}
+
+.sucesso h2{
+  color: #121212;
+  font-size: 2.5rem;
+}
+
+.sucesso p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+#usuario-logado{
+  font-weight: 700;
+  color: #4a4a4a;
+}
+
+#limpar-storage-btn{
+  background-color: #dc3545;
+}
+
+#limpar-storage-btn:hover{
+    background-color: #c82333;
+}
