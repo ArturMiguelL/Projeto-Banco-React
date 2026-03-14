@@ -27,10 +27,11 @@ export default function Login(){
          const data = await response.json()
 
         if(response.ok){
+            localStorage.setItem("token", data.token)
 
             navigate('/principal')
         }else{
-            alert(data)
+            alert(data.message)
         }
     }
     return(
@@ -43,7 +44,7 @@ export default function Login(){
 
                 <div className="input-group">
                     <label>Email: </label>
-                    <input name="email" value={email}
+                    <input type="email" value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required />
                 </div>

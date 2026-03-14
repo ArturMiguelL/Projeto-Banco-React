@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cadastro from "./Pages/Cadastro.jsx";
 import Login from "./Pages/Login.jsx";
 import Principal from "./Pages/Principal.jsx";
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 export default function App(){
 
@@ -13,7 +14,12 @@ export default function App(){
                 <Route path="/cadastro" element={<Cadastro />}/>
 
 
-                <Route path="/pricipal" element={<Principal />}/>
+                <Route path="/principal" 
+                element={
+                <ProtectedRoute>
+                <Principal />
+                </ProtectedRoute>
+                }/>
 
             </Routes>
         

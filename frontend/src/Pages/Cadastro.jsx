@@ -15,6 +15,7 @@ export default function Cadastro(){
        
         e.preventDefault()
 
+        try{
         const response = await fetch("http://localhost:3000/cadastro",{
             method: "POST",
             headers:{
@@ -34,8 +35,11 @@ export default function Cadastro(){
 
             navigate('/')
         }else{
-            alert(data)
+            alert(data.message)
         }
+    }catch(err){
+        alert("Erro ao conectar ao banco")
+    }
     }
 
         return(
@@ -55,7 +59,7 @@ export default function Cadastro(){
 
                 <div className="input-group">
                     <label>Email: </label>
-                    <input name="email" value={email}
+                    <input type="email" value={email}
                     onChange={(e) => setEmail(e.target.value)}
                    required />
                 </div>
