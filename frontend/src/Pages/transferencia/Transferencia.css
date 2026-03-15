@@ -1,0 +1,82 @@
+
+.transferencia-container{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+padding-top:120px;
+min-height:100vh;
+}
+
+
+.transferencia-card{
+background:#ffffff;
+
+width:600px;          /* deixa maior */
+max-width:90%;
+padding:40px;
+border-radius:14px;
+/* borda visível */
+border:1px solid #e0e0e0;
+/* sombra suave estilo dashboard */
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.transferencia-card h1{
+text-align:center;
+margin-bottom:30px;
+color:#333;
+font-size:28px;
+}
+
+.transferencia-form{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.form-group label{
+font-size:14px;
+font-weight:600;
+color:#444;
+}
+
+.form-group input,
+.form-group select{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
+transition:0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+outline:none;
+border-color:#4CAF50;
+box-shadow:0 0 4px rgba(76,175,80,0.4);
+}
+
+.btn-transferir{
+margin-top:10px;
+padding:12px;
+background: #1e3a8a;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.2s;
+font-weight:600;
+letter-spacing:0.5px;
+}
+
+.btn-transferir:hover{
+background:#43a047;
+transform:translateY(-2px);
+}

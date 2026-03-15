@@ -95,33 +95,3 @@ h2{
 .link-page a:hover{
   color: #0056b3;
 }
-
-.sucesso{
-  text-align: center;
-}
-
-.sucesso h2{
-  color: #121212;
-  font-size: 2.5rem;
-}
-
-.sucesso p {
-  font-size: 1.2rem;
-  color: #666;
-  margin-top: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
-#usuario-logado{
-  font-weight: 700;
-  color: #4a4a4a;
-}
-
-#limpar-storage-btn{
-  background-color: #dc3545;
-}
-
-#limpar-storage-btn:hover{
-    background-color: #c82333;
-}

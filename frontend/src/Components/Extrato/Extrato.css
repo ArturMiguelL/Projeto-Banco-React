@@ -1,0 +1,60 @@
+.extrato-container-wrapper{
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+.header-lista h2{
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.extrato-container{
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.extrato-container th, .extrato-container td{
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.extrato-container tbody tr:nth-child(even){
+    background-color: #f9f9f9;
+}
+
+.extrato-container .credito{
+    color: #2e7d32;
+}
+
+.extrato-container .debito{
+    color: #c62828;
+    font-weight: bold;
+}
+
+.extrato-container .obs{
+    font-style: italic;
+    color: #555;
+}
+
+.extrato-container .saldo{
+    font-weight: bold;
+    background-color: #e0f7fa;
+}
+
+@media (max-width: 768px) {
+    .extrato-container th, .extrato-container td {
+        padding: 10px 8px;
+        font-size: 14px;
+}
+}

@@ -1,0 +1,30 @@
+.card{
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* mais visível */
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.card.clickable{
+    cursor: pointer;
+}
+.card.clickable:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+
+.card h3{
+    margin: 0 0 10px 0;
+    font-size: 22px;
+}
+
+.card p{
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+}
+

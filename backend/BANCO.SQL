@@ -11,10 +11,14 @@ CREATE TABLE users(
 );
 
 CREATE TABLE extrato (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    tipo VARCHAR(100),
-    valor DECIMAL(10,2),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ user_id INT,
+ destino_id INT,
+ valor DECIMAL(10,2),
+ descricao VARCHAR(255),
+ tipo VARCHAR(50),
+ created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+ FOREIGN KEY (user_id) REFERENCES users(id),
+ FOREIGN KEY (destino_id) REFERENCES users(id)
 );

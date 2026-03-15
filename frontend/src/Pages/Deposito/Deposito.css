@@ -1,0 +1,74 @@
+.deposito-container{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+padding-top:120px;
+min-height:100vh;
+}
+
+.deposito-card{
+background:#ffffff;
+width:600px;
+max-width:90%;
+padding:40px;
+border-radius:14px;
+border:1px solid #e0e0e0;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.deposito-card h1{
+text-align:center;
+margin-bottom:30px;
+color:#333;
+font-size:28px;
+}
+
+.deposito-form{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.form-group label{
+font-size:14px;
+font-weight:600;
+color:#444;
+}
+
+.form-group input{
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+transition:0.2s;
+}
+
+.form-group input:focus{
+outline:none;
+border-color:#1e3a8a;
+box-shadow:0 0 4px rgba(30,58,138,0.3);
+}
+
+.btn-depositar{
+margin-top:10px;
+padding:14px;
+background:#1e3a8a;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+}
+
+.btn-depositar:hover{
+background:#172e6b;
+transform:translateY(-2px);
+}

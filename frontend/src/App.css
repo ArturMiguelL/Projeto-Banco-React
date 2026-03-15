@@ -39,3 +39,11 @@
 .read-the-docs {
   color: #888;
 }
+
+.saldo-chamativo {
+  color: #FFA96B;
+  font-size: 1.8rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}

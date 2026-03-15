@@ -1,0 +1,12 @@
+body{
+    margin: 0;
+    background: #e5e5e5;
+    display: flex;
+}
+
+.cards-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: -80px;
+}

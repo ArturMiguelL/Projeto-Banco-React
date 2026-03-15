@@ -30,7 +30,7 @@ export const login = async (req,res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email},
             SECRET,
-            { expiresIn: "15m"}
+            { expiresIn: "10y"}
         )
 
         res.status(200).json({
@@ -88,6 +88,119 @@ export const cadastro = async (req, res) => {
         return res.status(500).json(err)
     }
 }
+
+export const saldo = async(req, res)=> {
+    try {
+        const userId = req.user.id
+        const sql = 'SELECT saldo FROM users WHERE id = ?'
+        const [result] = await db.query(sql, [userId])
+
+        if(result.length === 0){
+            return res.status(404).json({ message: 'Usuário não encontrado'})
+        }
+        res.status(200).json({ saldo: result[0].saldo})
+        
+    } catch (err) {
+         res.status(500).json(err)
+    }
+}
+
+export const transferencia = async(req, res)=>{
+
+    const { emailDestino, valor, descricao} = req.body
+    const remetenteId = req.user.id
+
+    //buscar usuário destino
+    const [destino] = await db.query(
+        "SELECT id FROM users WHERE email = ?",[emailDestino]
+    )
+
+    if(destino.length === 0){
+        return res.status(404).json({message: "Usuário não encontrado"})
+    }
+
+    const destinoId = destino[0].id
+
+    if(destinoId === remetenteId){
+        return res.status(400).json({message: "Não pode se transferir para si mesmo"})
+    }
+
+    //verificar saldo
+    const [user] = await db.query(
+        "SELECT saldo FROM users WHERE id = ?", [remetenteId]
+    )
+    if(user[0].saldo < valor){
+        return res.status(400).json({message: "Saldo insuficiente"})
+    }
+
+    //remover saldo
+    await db.query(
+        "UPDATE users SET saldo = saldo - ? WHERE id = ?", [valor, remetenteId]
+    )
+
+      //adicionar saldo
+    await db.query(
+        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valor, destinoId]
+    )
+
+    // registrar extrato
+
+    await db.query(
+        "INSERT INTO extrato (user_id, destino_id, tipo, valor) VALUES (?,?,?,?)",
+        [remetenteId, destinoId, "transferencia", valor]
+    )
+
+    res.json({message: "Transferência realizada"})
+}
+
+export const deposito = async (req,res)=>{
+
+    const { valor, descricao} = req.body
+    const userId = req.user.id
+
+    if(!valor || valor <= 0){
+        return res.status(400).json({message:"Valor inválido"})
+    }
+
+    try {
+        //adciona saldo
+        await db.query(
+        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valor, userId]
+        )
+
+        //registra no extrato
+        await db.query(
+            "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES(?, ?, 'credito', ?, ?)",
+            [userId,userId, valor, descricao || "Depósito"]
+        )
+
+        res.json({message: "Depósito realizado com sucesso"})
+    } catch (err) {
+        res.status(500).json({message:"Erro no depósito"})
+    }
+}
+
+export const extrato = async (req,res)=>{
+
+    const userId = req.user.id
+
+    const [rows] = await db.query(
+        `SELECT 
+        id,
+        valor,
+        descricao,
+        tipo,
+        destino_id,
+        DATE_FORMAT(created_at, '%d/%m/%Y %H:%i') as created_at
+        FROM extrato
+        WHERE user_id = ?
+        ORDER BY created_at DESC`,
+        [userId]
+
+    )
+    res.json(rows)
+}
+
 
 function senhaForte(password){
 
