@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./navbar.css"
 
 export default function NavBar(){
@@ -7,8 +7,13 @@ export default function NavBar(){
 
     <header >
         <nav>
-            <h1>Projeto Bank</h1>
-            <a href="#">Sair</a>
+            <h1>Projeto Bank</h1>  
+            <div>
+            <Link to="/principal">Home</Link>
+            <Link to="/transferencia">Transferência</Link>
+            <Link to="/deposito">Adicionar saldo</Link>
+            <Link to="/">sair</Link>
+            </div>
         </nav>
     </header>
  )

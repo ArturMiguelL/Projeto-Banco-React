@@ -105,14 +105,17 @@ export const saldo = async(req, res)=> {
     }
 }
 
-export const transferencia = async(req, res)=>{
+export const transferencia = async(req, res) => {
 
-    const { emailDestino, valor, descricao} = req.body
+    try{
+
+    const { emailDestino, valor } = req.body
     const remetenteId = req.user.id
+    const valorNumero = Number(valor)
 
-    //buscar usuário destino
+    // buscar usuário destino
     const [destino] = await db.query(
-        "SELECT id FROM users WHERE email = ?",[emailDestino]
+        "SELECT id FROM users WHERE email = ?", [emailDestino]
     )
 
     if(destino.length === 0){
@@ -125,53 +128,72 @@ export const transferencia = async(req, res)=>{
         return res.status(400).json({message: "Não pode se transferir para si mesmo"})
     }
 
-    //verificar saldo
+    // verificar saldo
     const [user] = await db.query(
         "SELECT saldo FROM users WHERE id = ?", [remetenteId]
     )
-    if(user[0].saldo < valor){
+    if(user[0].saldo < valorNumero){
         return res.status(400).json({message: "Saldo insuficiente"})
     }
 
-    //remover saldo
+    // remover saldo do remetente
     await db.query(
-        "UPDATE users SET saldo = saldo - ? WHERE id = ?", [valor, remetenteId]
+        "UPDATE users SET saldo = saldo - ? WHERE id = ?", [valorNumero, remetenteId]
     )
 
-      //adicionar saldo
+    // adicionar saldo ao destinatário
     await db.query(
-        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valor, destinoId]
+        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valorNumero, destinoId]
     )
 
-    // registrar extrato
-
+    // registrar extrato para quem enviou
     await db.query(
-        "INSERT INTO extrato (user_id, destino_id, tipo, valor) VALUES (?,?,?,?)",
-        [remetenteId, destinoId, "transferencia", valor]
+        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES (?,?,?,?,?)",
+        [remetenteId, destinoId, "saida", valorNumero, `Transferência para ${emailDestino}`]
+    )
+
+    // pegar email do remetente para registrar extrato do destinatário
+    const [remetente] = await db.query(
+        "SELECT email FROM users WHERE id = ?", [remetenteId]
+    )
+    const emailRemetente = remetente[0].email;
+
+    // registrar extrato para quem recebeu
+    await db.query(
+        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES (?,?,?,?,?)",
+        [destinoId, remetenteId, "entrada", valorNumero, `Recebido de ${emailRemetente}`]
     )
 
     res.json({message: "Transferência realizada"})
+
+    console.log({remetenteId, destinoId, valorNumero})
+}catch(erro){
+     console.error(error)
+      return res.status(500).json({message: "Erro interno do servidor"})
+  }
 }
+
 
 export const deposito = async (req,res)=>{
 
     const { valor, descricao} = req.body
     const userId = req.user.id
+    const valorNumero = Number(valor)
 
-    if(!valor || valor <= 0){
+    if(!valorNumero || valorNumero <= 0){
         return res.status(400).json({message:"Valor inválido"})
     }
 
     try {
         //adciona saldo
         await db.query(
-        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valor, userId]
+        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valorNumero, userId]
         )
 
         //registra no extrato
-        await db.query(
-            "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES(?, ?, 'credito', ?, ?)",
-            [userId,userId, valor, descricao || "Depósito"]
+       await db.query(
+        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES(?, ?, 'entrada', ?, ?)",
+        [userId, userId, valorNumero, descricao || "Depósito"]
         )
 
         res.json({message: "Depósito realizado com sucesso"})
@@ -186,18 +208,19 @@ export const extrato = async (req,res)=>{
 
     const [rows] = await db.query(
         `SELECT 
-        id,
-        valor,
-        descricao,
-        tipo,
-        destino_id,
-        DATE_FORMAT(created_at, '%d/%m/%Y %H:%i') as created_at
-        FROM extrato
-        WHERE user_id = ?
-        ORDER BY created_at DESC`,
+        e.id,
+        e.valor,
+        e.descricao,
+        e.tipo,
+        u.email AS email_destino,
+        DATE_FORMAT(e.created_at, '%d/%m/%Y %H:%i') as created_at
+        FROM extrato e
+        LEFT JOIN users u ON e.destino_id = u.id
+        WHERE e.user_id = ?
+        ORDER BY e.created_at DESC`,
         [userId]
-
     )
+
     res.json(rows)
 }
 

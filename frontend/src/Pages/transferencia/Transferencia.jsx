@@ -1,15 +1,18 @@
 import NavBar from "../../Components/navbar/NavBar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Transferencia.css"
 
 export default function Transferencia(){
 
     const [emailDestino, setEmailDestino] = useState("")
     const [valor, setValor] = useState("")
-    const [descricao, setDescricao] = useState("")
+    const navigate = useNavigate()
 
     async function handleSubmit(e) {
         e.preventDefault()
+
+        try{
 
         const token = localStorage.getItem("token")
 
@@ -21,17 +24,22 @@ export default function Transferencia(){
             },
             body: JSON.stringify({
                 emailDestino,
-                valor,
-                descricao
+                valor
             })
         })
         const data = await response.json()
 
         if(response.ok){
             alert("Transferência realizada")
+            navigate("/principal")
         }else{
             alert(data.message)
-        }        
+        }  
+        
+        }catch(err){
+            console.error(err)
+            alert("Erro ao conectar com servidor")
+        }
     }
     return(
         <div className="transferencia-container">
@@ -62,35 +70,7 @@ export default function Transferencia(){
                 onChange={(e)=> setValor(e.target.value)}
                 required
                  />
-                 </div>
-
-                <div className="form-group">
-                <label>Descrição</label>
-                 <input 
-                type="text"
-                placeholder="Ex: almoço, aluguel, salário"
-                value={descricao}
-                onChange={(e)=> setDescricao(e.target.value)}
-                required
-                 />
-                 </div>
-
-                 <div className="form-group">
-                <label>Tipo de operação</label>
-                <select>
-                <option value="debito">Saída</option>
-                <option value="credito">Entrada</option>
-                </select>
-                </div>
-
-                <div className="form-group">
-                <label>Forma de pagamento</label>
-                <select>
-                <option value="pix">Pix</option>
-                <option value="debito">Cartão Débito</option>
-                <option value="credito">Cartão Crédito</option>
-                </select>
-                </div>
+                 </div>              
 
                  <button className="btn-transferir" type="submit">Transferir</button>
             </form>

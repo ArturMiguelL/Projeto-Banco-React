@@ -33,10 +33,9 @@ export default function Extrato(){
         <table className="extrato-container">
             <thead>
                 <tr>
-                    <td>ID</td>
                     <td>Valor</td>
                     <td>Descrição</td>
-                    <td>Destino</td>
+                    <td>Destino/Recebido</td>
                     <td>Tipo</td>
                     <td>Data</td>
                </tr>
@@ -44,12 +43,11 @@ export default function Extrato(){
             <tbody>
                 {extratos.map((item)=>(
                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td className={item.tipo === "credito" ? "credito" : "debito"}>
-                     {item.valor}
-                     </td>
+                    <td className={item.tipo === "entrada" || item.tipo === "deposito" ? "credito" : "debito"}>
+                        R$ {item.valor}
+                        </td>
                     <td>{item.descricao}</td>
-                    <td>{item.destino}</td>
+                    <td>{item.email_destino}</td>
                     <td>{item.tipo}</td>
                     <td>{item.created_at}</td>
                </tr>
