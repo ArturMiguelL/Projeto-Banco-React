@@ -3,6 +3,13 @@ import "./navbar.css"
 
 export default function NavBar(){
 
+    const navigate = useNavigate()
+
+ function handleLogout(){
+    localStorage.removeItem("token")
+    navigate("/")
+ }
+
  return(
 
     <header >
@@ -13,7 +20,7 @@ export default function NavBar(){
             <Link to="/transferencia">Transferência</Link>
             <Link to="/deposito">Adicionar saldo</Link>
             <Link to="/estatisticas">Estatísticas</Link>
-            <Link to="/">sair</Link>
+            <Link to="/" onClick={handleLogout}>sair</Link>
             </div>
         </nav>
     </header>

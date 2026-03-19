@@ -1,8 +1,8 @@
 import "./Estatisticas.css"
 import NavBar from "../../Components/navbar/NavBar"
-import Card from "../../Components/Card/Card"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, PieChart, Pie, Tooltip } from "recharts"
 import { useEffect, useState } from "react"
+import { API_URL } from "../../api"
 
 export default function Estatisticas({ dados = [] }) {
 
@@ -14,7 +14,7 @@ export default function Estatisticas({ dados = [] }) {
         async function fetchExtrato(){
             const token = localStorage.getItem("token")
 
-            const response = await fetch("http://localhost:3000/extrato",{
+            const response = await fetch(`${API_URL}/extrato`,{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }

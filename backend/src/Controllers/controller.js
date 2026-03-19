@@ -1,4 +1,4 @@
-import { db } from '../Database/db.js'
+import db from '../Database/db.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcrypt"
 
@@ -30,7 +30,7 @@ export const login = async (req,res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email},
             SECRET,
-            { expiresIn: "10y"}
+            { expiresIn: "20m"}
         )
 
         res.status(200).json({

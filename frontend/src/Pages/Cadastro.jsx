@@ -1,5 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import { API_URL } from "../api.js"
 
 export default function Cadastro(){
 
@@ -16,7 +17,7 @@ export default function Cadastro(){
         e.preventDefault()
 
         try{
-        const response = await fetch("http://localhost:3000/cadastro",{
+        const response = await fetch(`${API_URL}/cadastro`,{
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

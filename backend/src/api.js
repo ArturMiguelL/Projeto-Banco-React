@@ -1,0 +1,1 @@
+export const API_URL = "https://backend-production-b8ea.up.railway.app";

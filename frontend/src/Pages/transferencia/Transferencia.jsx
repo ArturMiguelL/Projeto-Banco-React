@@ -2,6 +2,7 @@ import NavBar from "../../Components/navbar/NavBar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Transferencia.css"
+import { API_URL } from "../../api.js"
 
 export default function Transferencia(){
 
@@ -16,7 +17,7 @@ export default function Transferencia(){
 
         const token = localStorage.getItem("token")
 
-        const response = await fetch("http://localhost:3000/transferencia", {
+        const response = await fetch(`${API_URL}/transferencia`, {
             method: "POST",
             headers:{
                 "Content-Type":"application/json",

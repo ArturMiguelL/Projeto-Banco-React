@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link} from "react-router-dom";
+import { API_URL } from "../api.js"
 
 
 export default function Login(){
@@ -13,7 +14,7 @@ export default function Login(){
 
         e.preventDefault()
 
-         const response = await fetch("http://localhost:3000/",{
+         const response = await fetch(`${API_URL}/`,{
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

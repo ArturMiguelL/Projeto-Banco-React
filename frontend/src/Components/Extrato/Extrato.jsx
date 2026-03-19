@@ -1,5 +1,6 @@
 import "./Extrato.css"
 import { useState, useEffect } from "react";
+import { API_URL } from "../../api";
 
 export default function Extrato(){
 
@@ -11,7 +12,7 @@ export default function Extrato(){
 
             const token = localStorage.getItem("token")
 
-            const response = await fetch("http://localhost:3000/extrato",{
+            const response = await fetch(`${API_URL}/extrato`,{
                 headers:{
                     Authorization:`Bearer ${token}`
                 }

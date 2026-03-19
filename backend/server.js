@@ -1,23 +1,30 @@
 import "dotenv/config"
-
 import express from "express"
 import cors from "cors"
 import routes from "./src/Routes/Routes.js";
 
-
-const PORT = 3000;
-
-
 const app = express()
+
 app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: ["GET","POST","PUT","DELETE"],
-    allowedHeaders: ["Content-Type", 'Authorization']
+  origin: true,
+  credentials: true
 }))
+
 app.use(express.json())
+
+app.get("/", (req, res) => {
+  res.send("API rodando 🚀");
+});
+
 app.use("/", routes)
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ erro: "Erro interno do servidor" });
+});
 
-app.listen(PORT, ()=>{
-    console.log(`Servidor rodando com succeso em http://localhost:${PORT}`)
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`)
 })

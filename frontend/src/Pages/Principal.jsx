@@ -4,6 +4,7 @@ import Extrato from "../Components/Extrato/Extrato"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./principal.css"
+import { API_URL } from "../api"
 
 export default function Principal(){
   const [saldo, setSaldo ] = useState(null);
@@ -13,7 +14,7 @@ export default function Principal(){
     async function fetchSaldo(){
       try {
         const token = localStorage.getItem('token'); // token salvo no localstorage
-        const response = await fetch('http://localhost:3000/saldo', {
+        const response = await fetch(`${API_URL}/saldo`, {
           headers: { 'Authorization': `Bearer ${token}`}
         });
         const data = await response.json()

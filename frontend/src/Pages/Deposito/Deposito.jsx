@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  NavBar  from "../../Components/navbar/NavBar";
 import "./Deposito.css"
+import { API_URL } from "../../api.js"
 
 export default function Deposito(){
 
@@ -15,7 +16,7 @@ export default function Deposito(){
 
         const token = localStorage.getItem("token")
 
-        const response = await fetch("http://localhost:3000/deposito",{
+        const response = await fetch(`${API_URL}/deposito`,{
             method:"POST",
             headers:{
             "Content-Type":"application/json",
@@ -27,6 +28,7 @@ export default function Deposito(){
             })
         })
         
+
         if(response.ok){
             alert("Saldo adicionado")
             navigate("/principal")
