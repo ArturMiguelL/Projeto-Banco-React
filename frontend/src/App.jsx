@@ -5,6 +5,7 @@ import Principal from "./Pages/Principal.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import Transferencia from "./Pages/transferencia/Transferencia.jsx";
 import Deposito from "./Pages/Deposito/Deposito.jsx";
+import Estatisticas from "./Pages/Estatisticas/Estatisticas.jsx";
 
 
 export default function App(){
@@ -42,6 +43,15 @@ export default function App(){
                 }
                 />
 
+                <Route 
+                path="/Estatisticas"
+                element={
+                 <ProtectedRoute>
+                  <Estatisticas />
+                 </ProtectedRoute>
+                }
+                
+                />
             </Routes>
         
         </BrowserRouter>

@@ -173,7 +173,6 @@ export const transferencia = async(req, res) => {
   }
 }
 
-
 export const deposito = async (req,res)=>{
 
     const { valor, descricao} = req.body
@@ -223,7 +222,6 @@ export const extrato = async (req,res)=>{
 
     res.json(rows)
 }
-
 
 function senhaForte(password){
 

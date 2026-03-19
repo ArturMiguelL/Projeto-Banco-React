@@ -46,6 +46,7 @@ export default function Principal(){
     <Card 
     titulo="Estatisticas" 
     saldo="Estatisticas de saída e entrada"
+    onClick={() => navigate("/Estatisticas")}
     />
     </div>
     <Extrato />

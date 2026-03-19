@@ -12,6 +12,7 @@ export default function NavBar(){
             <Link to="/principal">Home</Link>
             <Link to="/transferencia">Transferência</Link>
             <Link to="/deposito">Adicionar saldo</Link>
+            <Link to="/estatisticas">Estatísticas</Link>
             <Link to="/">sair</Link>
             </div>
         </nav>

@@ -83,7 +83,7 @@ export default function Cadastro(){
                      required/>
                 </div>
 
-                <button type="submit" className="bnt">Cadastrar</button>
+                <button type="submit" className="btn">Cadastrar</button>
             </form>
                 <p className="link-page">
                     Já possui conta? <Link to="/">Entrar</Link>

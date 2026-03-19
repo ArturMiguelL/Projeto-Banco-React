@@ -57,7 +57,7 @@ export default function Login(){
                     required />
                 </div>
 
-                <button type="submit" className="bnt">Entrar</button>
+                <button type="submit" className="btn">Entrar</button>
             </form>
                 <p className="link-page">
                     Não tem conta? <Link to="/cadastro">Cadastra-se</Link>
