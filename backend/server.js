@@ -6,15 +6,16 @@ import routes from "./src/Routes/Routes.js";
 const app = express()
 
 app.use(cors({
-  origin: true,
+  origin: "https://frontend-production-6e847.up.railway.app",
   methods: ["GET","POST","PUT","DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }))
 
 app.use(express.json())
 
 app.get("/", (req, res) => {
-  res.send("API rodando 🚀");
+  res.send("API rodando ");
 });
 
 app.use("/", routes)
