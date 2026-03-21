@@ -5,7 +5,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
 
 export default function Extrato(){
 
@@ -17,7 +17,7 @@ export default function Extrato(){
 
             const token = localStorage.getItem("token")
 
-            const response = await fetch(`${API_URL}/extrato`,{
+            const response = await axios.get("/extrato",{
                 headers:{
                     Authorization:`Bearer ${token}`
                 }

@@ -22,7 +22,7 @@ export default function Transferencia(){
 
         const token = localStorage.getItem("token")
 
-        const response = await fetch(`${API_URL}/transferencia`, {
+        const response = await axios.get("/transferencia", {
             method: "POST",
             headers:{
                 "Content-Type":"application/json",

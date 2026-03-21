@@ -19,7 +19,7 @@ export default function Estatisticas({ dados = [] }) {
         async function fetchExtrato(){
             const token = localStorage.getItem("token")
 
-            const response = await fetch(`${API_URL}/extrato`,{
+            const response = await axios.get("/extrato",{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }

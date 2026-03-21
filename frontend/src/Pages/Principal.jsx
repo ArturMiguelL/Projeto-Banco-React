@@ -19,7 +19,7 @@ export default function Principal(){
     async function fetchSaldo(){
       try {
         const token = localStorage.getItem('token'); // token salvo no localstorage
-        const response = await fetch(`${API_URL}/saldo`, {
+        const response = await axios.get("/saldo", {
           headers: { 'Authorization': `Bearer ${token}`}
         });
         const data = await response.json()

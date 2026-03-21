@@ -19,7 +19,7 @@ export default function Login(){
 
         e.preventDefault()
 
-         const response = await fetch(`${API_URL}/`,{
+         const response = await axios.get("/",{
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

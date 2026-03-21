@@ -22,7 +22,7 @@ export default function Cadastro(){
         e.preventDefault()
 
         try{
-        const response = await fetch(`${API_URL}/cadastro`,{
+        const response = await axios.get("/cadastro",{
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

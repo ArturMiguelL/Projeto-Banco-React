@@ -21,7 +21,7 @@ export default function Deposito(){
 
         const token = localStorage.getItem("token")
 
-        const response = await fetch(`${API_URL}/deposito`,{
+        const response = await axios.get("/deposito",{
             method:"POST",
             headers:{
             "Content-Type":"application/json",
