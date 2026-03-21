@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  NavBar  from "../../Components/navbar/NavBar";
 import "./Deposito.css"
+import axios from "axios";
 
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"

@@ -4,6 +4,7 @@ import Extrato from "../Components/Extrato/Extrato"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./principal.css"
+import axios from "axios";
 
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"

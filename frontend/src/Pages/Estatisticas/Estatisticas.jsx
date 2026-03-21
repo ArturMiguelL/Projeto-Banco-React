@@ -2,6 +2,7 @@ import "./Estatisticas.css"
 import NavBar from "../../Components/navbar/NavBar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, PieChart, Pie, Tooltip } from "recharts"
 import { useEffect, useState } from "react"
+import axios from "axios";
 
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"

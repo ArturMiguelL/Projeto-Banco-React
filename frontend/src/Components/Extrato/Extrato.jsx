@@ -1,5 +1,6 @@
 import "./Extrato.css"
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
