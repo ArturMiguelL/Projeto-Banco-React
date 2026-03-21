@@ -6,7 +6,7 @@ import "./Deposito.css"
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "http://localhost:3000/api";
+        : "https://projeto-banco-react.onrender.com";
         
 export default function Deposito(){
 
