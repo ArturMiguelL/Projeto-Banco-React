@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ erro: "Erro interno do servidor" });
 });
 
-app.get((req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 

@@ -22,10 +22,7 @@ export default function Extrato(){
                     Authorization:`Bearer ${token}`
                 }
             })
-
-            const data = await response.json()
-
-            setExtratos(data)
+            setExtratos(response.data)
         }
         fetchExtrato()
     },[])

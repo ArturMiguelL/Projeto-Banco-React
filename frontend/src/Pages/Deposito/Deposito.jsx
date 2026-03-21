@@ -7,7 +7,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
         
 export default function Deposito(){
 
@@ -21,23 +21,18 @@ export default function Deposito(){
 
         const token = localStorage.getItem("token")
 
-        const response = await axios.get("/deposito",{
-            method:"POST",
-            headers:{
-            "Content-Type":"application/json",
-            Authorization:`Bearer ${token}`
-            },
-            body:JSON.stringify({
+        const response = await axios.post("/deposito",{
                 valor,
                 descricao
-            })
+            },{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
         })
         
-
-        if(response.ok){
             alert("Saldo adicionado")
             navigate("/principal")
-        }
+        
     }
 
     return(

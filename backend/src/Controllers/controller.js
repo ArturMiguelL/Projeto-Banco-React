@@ -4,6 +4,12 @@ import bcrypt from "bcrypt"
 
 const SECRET = process.env.JWT_SECRET
 
+function senhaForte(password){
+
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/
+
+    return regex.test(password)
+}
 
 export const login = async (req,res) => {
 
@@ -223,9 +229,3 @@ export const extrato = async (req,res)=>{
     res.json(rows)
 }
 
-function senhaForte(password){
-
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/
-
-    return regex.test(password)
-}

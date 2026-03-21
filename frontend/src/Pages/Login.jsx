@@ -5,7 +5,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
 
 
 export default function Login(){
@@ -18,26 +18,22 @@ export default function Login(){
     async function handleSubmit(e){
 
         e.preventDefault()
-
-         const response = await axios.get("/",{
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
+        try{
+         const response = await axios.post("/",{
                 email,
                 password
             })
-        })
 
-         const data = await response.json()
+         const data = await response.data
 
-        if(response.ok){
-            localStorage.setItem("token", data.token)
+         localStorage.setItem("token", data.token)
 
             navigate('/principal')
-        }else{
-            alert(data.message)
+        }catch(err){
+             console.error(err)
+
+        const mensagem = err.response?.data?.message || "Erro ao fazer login"
+        alert(mensagem)
         }
     }
     return(

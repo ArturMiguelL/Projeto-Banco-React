@@ -7,7 +7,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
 
 export default function Estatisticas({ dados = [] }) {
 
@@ -24,9 +24,7 @@ export default function Estatisticas({ dados = [] }) {
                     Authorization: `Bearer ${token}`
                 }
         })
-
-        const data = await response.json()
-        setExtratos(data)
+        setExtratos(response.data)
         }
         fetchExtrato()
     }, [])

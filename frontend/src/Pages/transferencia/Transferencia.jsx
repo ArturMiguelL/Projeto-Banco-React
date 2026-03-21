@@ -7,7 +7,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
 
 export default function Transferencia(){
 
@@ -22,25 +22,17 @@ export default function Transferencia(){
 
         const token = localStorage.getItem("token")
 
-        const response = await axios.get("/transferencia", {
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json",
-                  Authorization:`Bearer ${token}`
-            },
-            body: JSON.stringify({
-                emailDestino,
+        const response = await axios.post("/transferencia", {
+                 emailDestino,
                 valor
-            })
+            }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
-        const data = await response.json()
-
-        if(response.ok){
+        
             alert("Transferência realizada")
             navigate("/principal")
-        }else{
-            alert(data.message)
-        }  
         
         }catch(err){
             console.error(err)

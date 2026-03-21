@@ -9,7 +9,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com"; 
+        : "https://projeto-banco-react.onrender.com/api"; 
 
 export default function Principal(){
   const [saldo, setSaldo ] = useState(null);
@@ -19,11 +19,13 @@ export default function Principal(){
     async function fetchSaldo(){
       try {
         const token = localStorage.getItem('token'); // token salvo no localstorage
+
         const response = await axios.get("/saldo", {
           headers: { 'Authorization': `Bearer ${token}`}
         });
-        const data = await response.json()
+        const data = await response.data
         setSaldo(data.saldo)
+        
       } catch (error) {
         console.error('Erro ao buscar saldo', error)
       }

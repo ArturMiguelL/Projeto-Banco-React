@@ -5,7 +5,7 @@ import axios from "axios";
 axios.defaults.baseURL=
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/api"
-        : "https://projeto-banco-react.onrender.com";
+        : "https://projeto-banco-react.onrender.com/api";
 
 export default function Cadastro(){
 
@@ -22,29 +22,20 @@ export default function Cadastro(){
         e.preventDefault()
 
         try{
-        const response = await axios.get("/cadastro",{
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
+        const response = await axios.post("/cadastro",{
                 nome,
                 email,
                 password,
                 data_de_nascimento
-            })
-        })
-
-         const data = await response.json()
-
-        if(response.ok){
+            })  
 
             navigate('/')
-        }else{
-            alert(data.message)
-        }
+      
     }catch(err){
-        alert("Erro ao conectar ao banco")
+         console.error(err)
+
+        const mensagem = err.response?.data?.message || "Erro ao cadastrar"
+        alert(mensagem)
     }
     }
 
