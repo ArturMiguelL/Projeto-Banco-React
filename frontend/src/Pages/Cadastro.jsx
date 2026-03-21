@@ -1,6 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import { API_URL } from "../api.js"
+
+axios.defaults.baseURL=
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/api"
+        : "http://localhost:3000/api";
 
 export default function Cadastro(){
 

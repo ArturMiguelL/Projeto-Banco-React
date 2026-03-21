@@ -1,6 +1,10 @@
 import "./Extrato.css"
 import { useState, useEffect } from "react";
-import { API_URL } from "../../api";
+
+axios.defaults.baseURL=
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/api"
+        : "http://localhost:3000/api";
 
 export default function Extrato(){
 

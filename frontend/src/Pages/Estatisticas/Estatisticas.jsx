@@ -2,7 +2,11 @@ import "./Estatisticas.css"
 import NavBar from "../../Components/navbar/NavBar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, PieChart, Pie, Tooltip } from "recharts"
 import { useEffect, useState } from "react"
-import { API_URL } from "../../api"
+
+axios.defaults.baseURL=
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/api"
+        : "http://localhost:3000/api";
 
 export default function Estatisticas({ dados = [] }) {
 

@@ -2,7 +2,11 @@ import NavBar from "../../Components/navbar/NavBar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Transferencia.css"
-import { API_URL } from "../../api.js"
+
+axios.defaults.baseURL=
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/api"
+        : "http://localhost:3000/api";
 
 export default function Transferencia(){
 

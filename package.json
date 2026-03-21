@@ -1,0 +1,22 @@
+{
+  "name": "projeto-banco-react",
+  "version": "1.0.0",
+  "description": "![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\\&logo=react\\&logoColor=61DAFB)\r ![JavaScript](https://img.shields.io/badge/JavaScript-000000?style=for-the-badge\\&logo=javascript)\r ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge\\&logo=css3)\r ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge\\&logo=nodedotjs)\r ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge\\&logo=mysql)",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArturMiguelL/Projeto-Banco-React.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ArturMiguelL/Projeto-Banco-React/issues"
+  },
+  "homepage": "https://github.com/ArturMiguelL/Projeto-Banco-React#readme"
+}

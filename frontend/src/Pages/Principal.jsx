@@ -4,7 +4,11 @@ import Extrato from "../Components/Extrato/Extrato"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./principal.css"
-import { API_URL } from "../api"
+
+axios.defaults.baseURL=
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/api"
+        : "http://localhost:3000/api"; 
 
 export default function Principal(){
   const [saldo, setSaldo ] = useState(null);
