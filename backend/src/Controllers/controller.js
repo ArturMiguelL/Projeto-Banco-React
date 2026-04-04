@@ -1,6 +1,9 @@
-import db from '../Database/db.js'
+import {db} from '../Database/db.js'
+import { users } from '../Database/schema.js'
+import { extrato } from '../Database/schema.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcrypt"
+import { desc, eq, sql } from 'drizzle-orm'
 
 const SECRET = process.env.JWT_SECRET
 
@@ -16,10 +19,7 @@ export const login = async (req,res) => {
     const {email, password } = req.body
 
     try{
-
-        const sql = "SELECT * FROM users WHERE email = ?"
-
-        const [result] = await db.query(sql,[email])
+        const result = await db.select().from(users).where(eq(users.email, email))
 
         if(result.length === 0){
             return res.status(401).json({message:"Email ou senha inválidos"})
@@ -43,15 +43,16 @@ export const login = async (req,res) => {
           message:"Login realizado",
          token,
          user:{
-        id:user.id,
-        nome:user.nome,
-        email:user.email
+            id:user.id,
+            nome:user.nome,
+            email:user.email
     }
 })
 
 
     }catch(err){
-        return res.status(500).json(err)
+        console.error(err)
+        return res.status(500).json({ message: "Erro interno" })
     }
 }
 
@@ -68,9 +69,7 @@ export const cadastro = async (req, res) => {
 
     try{
 
-        const checkEmail = "SELECT * FROM users WHERE email = ?"
-
-        const [result] = await db.query(checkEmail,[email])
+        const result = await db.select().from(users).where(eq(users.email, email))
 
         if(result.length > 0){
             return res.status(400).json({message:"Email já cadastrado"})
@@ -79,12 +78,7 @@ export const cadastro = async (req, res) => {
         //gerar hash da senha
         const hash = await bcrypt.hash(password,10)
 
-        const insertUser = `
-        INSERT INTO users (nome,email,password,data_de_nascimento)
-        VALUES (?,?,?,?)
-        `
-
-         await db.query(insertUser,[nome,email,hash,data_de_nascimento])
+        await db.insert(users).values({ nome, email, password: hash, data_de_nascimento})
 
         return res.status(201).json({
             message:"Usuário cadastrado com sucesso"
@@ -96,10 +90,11 @@ export const cadastro = async (req, res) => {
 }
 
 export const saldo = async(req, res)=> {
+    // faltou essa linha
+    const userId = req.user.id
     try {
-        const userId = req.user.id
-        const sql = 'SELECT saldo FROM users WHERE id = ?'
-        const [result] = await db.query(sql, [userId])
+     
+        const result = await db.select({saldo: users.saldo }).from(users).where(eq(users.id, userId))
 
         if(result.length === 0){
             return res.status(404).json({ message: 'Usuário não encontrado'})
@@ -119,11 +114,13 @@ export const transferencia = async(req, res) => {
     const remetenteId = req.user.id
     const valorNumero = Number(valor)
 
-    // buscar usuário destino
-    const [destino] = await db.query(
-        "SELECT id FROM users WHERE email = ?", [emailDestino]
-    )
+    await db.transaction(async (tx) => {
 
+    
+    const destino = await tx.select({ id: users.id, email: users.email})
+        .from(users).where(eq(users.email, emailDestino))
+        
+    
     if(destino.length === 0){
         return res.status(404).json({message: "Usuário não encontrado"})
     }
@@ -135,46 +132,48 @@ export const transferencia = async(req, res) => {
     }
 
     // verificar saldo
-    const [user] = await db.query(
-        "SELECT saldo FROM users WHERE id = ?", [remetenteId]
-    )
-    if(user[0].saldo < valorNumero){
+    const remetente = await tx.select({ id: users.id, saldo: users.saldo, email: users.email })
+                .from(users).where(eq(users.id, remetenteId))
+       
+    
+    if(Number(remetente[0].saldo) < valorNumero){
         return res.status(400).json({message: "Saldo insuficiente"})
     }
 
     // remover saldo do remetente
-    await db.query(
-        "UPDATE users SET saldo = saldo - ? WHERE id = ?", [valorNumero, remetenteId]
-    )
-
+    await tx.update(users)
+        .set({ saldo: sql`${users.saldo} - ${valorNumero}`})
+        .where(eq(users.id, remetenteId))
+    
     // adicionar saldo ao destinatário
-    await db.query(
-        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valorNumero, destinoId]
-    )
+    await tx.update(users)
+        .set({ saldo: sql`${users.saldo} + ${valorNumero}`})
+        .where(eq(users.id, destinoId))
 
     // registrar extrato para quem enviou
-    await db.query(
-        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES (?,?,?,?,?)",
-        [remetenteId, destinoId, "saida", valorNumero, `Transferência para ${emailDestino}`]
-    )
+    await tx.insert(extrato).values({
+        user_id: remetenteId,
+                destino_id: destinoId,
+                tipo: "saida",
+                valor: valorNumero,
+                descricao: `Transferência para ${emailDestino}`
+    })
 
     // pegar email do remetente para registrar extrato do destinatário
-    const [remetente] = await db.query(
-        "SELECT email FROM users WHERE id = ?", [remetenteId]
-    )
-    const emailRemetente = remetente[0].email;
-
-    // registrar extrato para quem recebeu
-    await db.query(
-        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES (?,?,?,?,?)",
-        [destinoId, remetenteId, "entrada", valorNumero, `Recebido de ${emailRemetente}`]
-    )
+    await tx.insert(extrato).values({
+        user_id: destinoId,
+                destino_id: remetenteId,
+                tipo: "entrada",
+                valor: valorNumero,
+                descricao: `Recebido de ${remetente[0].email}`
+    })
 
     res.json({message: "Transferência realizada"})
 
     console.log({remetenteId, destinoId, valorNumero})
+    })
 }catch(erro){
-     console.error(error)
+     console.error(erro)
       return res.status(500).json({message: "Erro interno do servidor"})
   }
 }
@@ -190,42 +189,52 @@ export const deposito = async (req,res)=>{
     }
 
     try {
-        //adciona saldo
-        await db.query(
-        "UPDATE users SET saldo = saldo + ? WHERE id = ?", [valorNumero, userId]
-        )
+        await db.transaction(async (tx) => {
+
+        await tx.update(users)
+        .set({ saldo: sql`${users.saldo} + ${valorNumero}`})
+        .where(eq(users.id, userId))
 
         //registra no extrato
-       await db.query(
-        "INSERT INTO extrato (user_id, destino_id, tipo, valor, descricao) VALUES(?, ?, 'entrada', ?, ?)",
-        [userId, userId, valorNumero, descricao || "Depósito"]
-        )
+       await tx.insert(extrato).values({
+        user_id: userId,
+        destino_id: userId,
+        tipo: "entrada",
+        valor: valorNumero,
+        descricao: descricao || "Depósito"
+       })
+        
 
-        res.json({message: "Depósito realizado com sucesso"})
+    })
+    res.json({message: "Depósito realizado com sucesso"})
     } catch (err) {
-        res.status(500).json({message:"Erro no depósito"})
+        console.error("ERRO DEPOSITO:", err)
+     res.status(500).json({ message: "Erro no depósito" })
     }
 }
 
-export const extrato = async (req,res)=>{
+export const getExtrato = async (req,res)=>{
 
     const userId = req.user.id
 
-    const [rows] = await db.query(
-        `SELECT 
-        e.id,
-        e.valor,
-        e.descricao,
-        e.tipo,
-        u.email AS email_destino,
-        DATE_FORMAT(e.created_at, '%d/%m/%Y %H:%i') as created_at
-        FROM extrato e
-        LEFT JOIN users u ON e.destino_id = u.id
-        WHERE e.user_id = ?
-        ORDER BY e.created_at DESC`,
-        [userId]
-    )
+    try {
+        const rows = await db
+            .select({
+                id: extrato.id,
+                valor: extrato.valor,
+                descricao: extrato.descricao,
+                tipo: extrato.tipo,
+                email_destino: users.email,
+                created_at: extrato.created_at,
+            })
+            .from(extrato)
+            .leftJoin(users, eq(extrato.destino_id, users.id))
+            .where(eq(extrato.user_id, userId))
+            .orderBy(desc(extrato.created_at))
 
-    res.json(rows)
+            res.json(rows)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Erro ao buscar extrato" })
+    }
 }
-
