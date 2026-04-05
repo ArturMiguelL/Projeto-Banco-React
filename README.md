@@ -6,7 +6,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-000000?style=for-the-badge\&logo=javascript)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge\&logo=css3)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge\&logo=nodedotjs)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge\&logo=mysql)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ---
 
